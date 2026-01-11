@@ -1,0 +1,264 @@
+#include "scene.hpp"
+
+#include "shaderPrograms.hpp"
+
+static constexpr float viewHeight = 10.0f;
+static constexpr float fovYDeg = 60.0f;
+static constexpr float nearPlane = 0.1f;
+static constexpr float farPlane = 1000.0f;
+
+Scene::Scene(const glm::ivec2& viewportSize) :
+	m_viewportSize{viewportSize},
+	m_camera{fovYDeg, nearPlane, farPlane},
+	m_configFrames(m_intermediateFrameCount),
+	m_quatFrames(m_intermediateFrameCount),
+	m_interpolation{m_configFrame, m_configFrames, m_configRobot, m_quatFrame, m_quatFrames,
+		m_quatRobot}
+{
+	updateViewportSize();
+
+	addPitchCamera(glm::radians(-30.0f));
+	addYawCamera(glm::radians(15.0f));
+
+	m_leftFramebuffer->bind();
+	setUpFramebuffer();
+	m_leftFramebuffer->unbind();
+
+	m_rightFramebuffer->bind();
+	setUpFramebuffer();
+	m_rightFramebuffer->unbind();
+
+	setUpFramebuffer();
+
+	m_interpolation.updateFramesAndRobots();
+}
+
+void Scene::update()
+{
+	m_interpolation.update();
+}
+
+void Scene::render()
+{
+	m_leftFramebuffer->bind();
+	clearFramebuffer();
+	m_camera.use();
+	renderFrames(m_configFrame, m_configFrames);
+	m_configRobot.render();
+	renderGrid();
+	m_leftFramebuffer->unbind();
+
+	m_rightFramebuffer->bind();
+	clearFramebuffer();
+	m_camera.use();
+	renderFrames(m_quatFrame, m_quatFrames);
+	m_quatRobot.render();
+	renderGrid();
+	m_rightFramebuffer->unbind();
+
+	clearFramebuffer();
+
+	m_leftFramebuffer->bindTexture();
+	ShaderPrograms::quad->use();
+	ShaderPrograms::quad->setUniform("right", false);
+	m_quad.render();
+
+	m_rightFramebuffer->bindTexture();
+	ShaderPrograms::quad->use();
+	ShaderPrograms::quad->setUniform("right", true);
+	m_quad.render();
+}
+
+void Scene::updateViewportSize()
+{
+	glm::ivec2 halfViewportSize = {m_viewportSize.x / 2, m_viewportSize.y};
+	m_camera.setViewportSize(halfViewportSize);
+	m_leftFramebuffer = std::make_unique<Framebuffer>(halfViewportSize);
+	m_rightFramebuffer = std::make_unique<Framebuffer>(halfViewportSize);
+}
+
+void Scene::addPitchCamera(float pitchRad)
+{
+	m_camera.addPitch(pitchRad);
+}
+
+void Scene::addYawCamera(float yawRad)
+{
+	m_camera.addYaw(yawRad);
+}
+
+void Scene::moveXCamera(float x)
+{
+	m_camera.moveX(x);
+}
+
+void Scene::moveYCamera(float y)
+{
+	m_camera.moveY(y);
+}
+
+void Scene::zoomCamera(float zoom)
+{
+	m_camera.zoom(zoom);
+}
+
+void Scene::updateCameraGUI()
+{
+	m_camera.updateGUI();
+}
+
+void Scene::startInterpolation()
+{
+	m_interpolation.start();
+}
+
+void Scene::stopInterpolation()
+{
+	m_interpolation.stop();
+}
+
+void Scene::resetInterpolation()
+{
+	m_interpolation.reset();
+}
+
+glm::vec3 Scene::getStartPos() const
+{
+	return m_interpolation.getStartPos();
+}
+
+void Scene::setStartPos(const glm::vec3& pos)
+{
+	m_interpolation.setStartPos(pos);
+}
+
+glm::vec3 Scene::getStartEulerAngles() const
+{
+	return m_interpolation.getStartEulerAngles();
+}
+
+void Scene::setStartEulerAngles(const glm::vec3& eulerAngles)
+{
+	m_interpolation.setStartEulerAngles(eulerAngles);
+}
+
+glm::vec4 Scene::getStartQuat() const
+{
+	return m_interpolation.getStartQuat();
+}
+
+void Scene::setStartQuat(const glm::vec4& quat)
+{
+	m_interpolation.setStartQuat(quat);
+}
+
+void Scene::normalizeStartQuat()
+{
+	m_interpolation.normalizeStartQuat();
+}
+
+glm::vec3 Scene::getEndPos() const
+{
+	return m_interpolation.getEndPos();
+}
+
+void Scene::setEndPos(const glm::vec3& pos)
+{
+	m_interpolation.setEndPos(pos);
+}
+
+glm::vec3 Scene::getEndEulerAngles() const
+{
+	return m_interpolation.getEndEulerAngles();
+}
+
+void Scene::setEndEulerAngles(const glm::vec3& eulerAngles)
+{
+	m_interpolation.setEndEulerAngles(eulerAngles);
+}
+
+glm::vec4 Scene::getEndQuat() const
+{
+	return m_interpolation.getEndQuat();
+}
+
+void Scene::setEndQuat(const glm::vec4& quat)
+{
+	m_interpolation.setEndQuat(quat);
+}
+
+void Scene::normalizeEndQuat()
+{
+	m_interpolation.normalizeEndQuat();
+}
+
+float Scene::getAnimationTime() const
+{
+	return m_interpolation.getEndTime();
+}
+
+void Scene::setAnimationTime(float time)
+{
+	m_interpolation.setEndTime(time);
+}
+
+int Scene::getIntermediateFrameCount() const
+{
+	return m_intermediateFrameCount;
+}
+
+void Scene::setIntermediateFrameCount(int count)
+{
+	m_intermediateFrameCount = count;
+	m_configFrames.resize(count);
+	m_quatFrames.resize(count);
+	m_interpolation.updateFramesAndRobots();
+}
+
+bool Scene::getRenderIntermediateFrames() const
+{
+	return m_renderIntermediateFrames;
+}
+
+void Scene::setRenderIntermediateFrames(bool render)
+{
+	m_renderIntermediateFrames = render;
+}
+
+float Scene::getTime() const
+{
+	return m_interpolation.getTime();
+}
+
+void Scene::setUpFramebuffer() const
+{
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_MULTISAMPLE);
+}
+
+void Scene::clearFramebuffer() const
+{
+	static constexpr glm::vec3 backgroundColor{0.1f, 0.1f, 0.1f};
+	glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void Scene::renderGrid() const
+{
+	m_plane.render();
+}
+
+void Scene::renderFrames(const Frame& mainFrame, const std::vector<Frame>& intermediateFrames) const
+{
+	mainFrame.render();
+	if (m_renderIntermediateFrames)
+	{
+		for (const Frame& frame : intermediateFrames)
+		{
+			frame.render();
+		}
+	}
+}
