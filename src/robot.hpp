@@ -1,18 +1,23 @@
 #pragma once
 
+#include "box.hpp"
+
 #include <glm/glm.hpp>
+
+#include <memory>
+#include <vector>
 
 class Robot
 {
 public:
 	struct Config
 	{
-		float alpha1;
-		float alpha2;
-		float q2;
-		float alpha3;
-		float alpha4;
-		float alpha5;
+		float alpha1Rad{};
+		float alpha2Rad{};
+		float q2{};
+		float alpha3Rad{};
+		float alpha4Rad{};
+		float alpha5Rad{};
 	};
 
 	struct Geometry
@@ -22,15 +27,23 @@ public:
 		float l4 = 0.5f;
 	};
 
+	Robot();
+
 	void render() const;
-	Config getConfig() const;
 	void setConfig(const Config& config);
-	void setPosAndOrientation(const glm::vec3& pos, const glm::vec4& quat);
 
 	static glm::vec3 configToPos(const Config& config);
 	static glm::mat4 configToRotationMatrix(const Config& config);
+	static Config posAndQuatToConfig(const glm::vec3& pos, const glm::vec4& quat,
+		const Config& prevConfig);
 
 private:
-	Geometry m_geometry{};
+	static Geometry m_geometry;
 	Config m_config{};
+	std::vector<std::unique_ptr<Box>> m_boxes{};
+
+	void updateBoxes();
+
+	static glm::mat4 getEndMatrix(const Config& config);
+	static Config normalize(const Config& config);
 };

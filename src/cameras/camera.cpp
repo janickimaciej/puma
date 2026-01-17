@@ -123,6 +123,10 @@ void Camera::updateShaders() const
 	glm::mat4 projectionViewMatrix = m_projectionMatrix * glm::inverse(m_viewMatrixInverse);
 	glm::mat4 projectionViewMatrixInverse = glm::inverse(projectionViewMatrix);
 
+	ShaderPrograms::mesh->use();
+	ShaderPrograms::mesh->setUniform("projectionViewMatrix", projectionViewMatrix);
+	ShaderPrograms::mesh->setUniform("cameraPos", getPos());
+
 	ShaderPrograms::frame->use();
 	ShaderPrograms::frame->setUniform("projectionViewMatrix", projectionViewMatrix);
 

@@ -19,7 +19,6 @@ public:
 	glm::vec3 getPos() const;
 	void setPos(const glm::vec3& pos);
 	void setRotationMatrix(const glm::mat4& matrix);
-	void setQuat(const glm::vec4& quat);
 
 private:
 	static std::unique_ptr<FrameMesh> m_mainFrameMesh;

@@ -48,6 +48,7 @@ private:
 	Frame& m_quatFrame;
 	std::vector<Frame>& m_quatFrames;
 	Robot& m_quatRobot;
+	Robot::Config m_prevConfig{};
 
 	TimePoint m_startTime{};
 	float m_currentTime = 0;
@@ -57,16 +58,18 @@ private:
 	glm::vec3 m_startPos{-1, 0, 0};
 	glm::vec3 m_startEulerAngles{0, 0, 0};
 	glm::vec4 m_startQuat{0, 0, 0, 1};
+	Robot::Config m_startConfig{};
 
 	glm::vec3 m_endPos{1, 0, 0};
 	glm::vec3 m_endEulerAngles{0, 0, 0};
 	glm::vec4 m_endQuat{0, 0, 0, 1};
+	Robot::Config m_endConfig{};
 
+	void updateStartConfig();
+	void updateEndConfig();
 	glm::vec3 interpolatePos(float time) const;
 	Robot::Config interpolateConfig(float time) const;
+	float interpolateAngle(float start, float end, float time) const;
 	glm::vec4 interpolateQuat(float time) const;
-	static glm::vec4 eulerAnglesToQuat(const glm::vec3& eulerAngles);
-	static glm::vec3 quatToEulerAngles(const glm::vec4& quat);
-	static glm::vec4 quatProduct(const glm::vec4& q1, const glm::vec4& q2);
 	static TimePoint now();
 };

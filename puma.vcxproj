@@ -28,6 +28,7 @@
     <ClCompile Include="dep\imgui\imgui_tables.cpp" />
     <ClCompile Include="dep\imgui\imgui_widgets.cpp" />
     <ClCompile Include="dep\imgui\misc\cpp\imgui_stdlib.cpp" />
+    <ClCompile Include="src\box.cpp" />
     <ClCompile Include="src\cameras\camera.cpp" />
     <ClCompile Include="src\cameras\perspectiveCamera.cpp" />
     <ClCompile Include="src\frame.cpp" />
@@ -38,12 +39,15 @@
     <ClCompile Include="src\guis\perspectiveCameraGUI.cpp" />
     <ClCompile Include="src\interpolation.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\mesh.cpp" />
+    <ClCompile Include="src\model.cpp" />
     <ClCompile Include="src\plane\plane.cpp" />
     <ClCompile Include="src\quad.cpp" />
     <ClCompile Include="src\robot.cpp" />
     <ClCompile Include="src\scene.cpp" />
     <ClCompile Include="src\shaderProgram.cpp" />
     <ClCompile Include="src\shaderPrograms.cpp" />
+    <ClCompile Include="src\utils.cpp" />
     <ClCompile Include="src\window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -56,6 +60,8 @@
     <ClInclude Include="dep\imgui\imstb_textedit.h" />
     <ClInclude Include="dep\imgui\imstb_truetype.h" />
     <ClInclude Include="dep\imgui\misc\cpp\imgui_stdlib.h" />
+    <ClInclude Include="src\box.hpp" />
+    <ClInclude Include="src\mesh.hpp" />
     <ClInclude Include="src\cameras\camera.hpp" />
     <ClInclude Include="src\cameras\perspectiveCamera.hpp" />
     <ClInclude Include="src\frame.hpp" />
@@ -65,16 +71,20 @@
     <ClInclude Include="src\guis\leftPanel.hpp" />
     <ClInclude Include="src\guis\perspectiveCameraGUI.hpp" />
     <ClInclude Include="src\interpolation.hpp" />
+    <ClInclude Include="src\model.hpp" />
     <ClInclude Include="src\plane\plane.hpp" />
     <ClInclude Include="src\quad.hpp" />
     <ClInclude Include="src\robot.hpp" />
     <ClInclude Include="src\scene.hpp" />
     <ClInclude Include="src\shaderProgram.hpp" />
     <ClInclude Include="src\shaderPrograms.hpp" />
+    <ClInclude Include="src\utils.hpp" />
     <ClInclude Include="src\window.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dep\imgui\misc\debuggers\imgui.natstepfilter" />
+    <None Include="src\shaders\meshFS.glsl" />
+    <None Include="src\shaders\meshVS.glsl" />
     <None Include="src\shaders\quadFS.glsl" />
     <None Include="src\shaders\quadVS.glsl" />
     <None Include="src\shaders\frameFS.glsl" />
