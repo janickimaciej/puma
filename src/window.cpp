@@ -1,6 +1,6 @@
 #include "window.hpp"
 
-#include "guis/leftPanel.hpp"
+#include "gui/leftPanel.hpp"
 #include "shaderPrograms.hpp"
 
 #include <cmath>
@@ -36,15 +36,9 @@ Window::~Window()
 	glfwTerminate();
 }
 
-const glm::ivec2& Window::viewportSize() const
-{
-	return m_viewportSize;
-}
-
-void Window::setWindowData(Scene& scene, GUI& gui)
+void Window::init(Scene& scene)
 {
 	m_scene = &scene;
-	m_gui = &gui;
 }
 
 bool Window::shouldClose() const
@@ -60,6 +54,11 @@ void Window::swapBuffers() const
 void Window::pollEvents() const
 {
 	glfwPollEvents();
+}
+
+const glm::ivec2& Window::viewportSize() const
+{
+	return m_viewportSize;
 }
 
 GLFWwindow* Window::getPtr()

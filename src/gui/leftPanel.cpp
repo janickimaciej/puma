@@ -1,4 +1,4 @@
-#include "guis/leftPanel.hpp"
+#include "gui/leftPanel.hpp"
 
 #include <imgui/imgui.h>
 
@@ -94,7 +94,7 @@ void LeftPanel::updatePosAndOrientation(const std::function<glm::vec3(void)>& po
 		-180.0f, 180.f, "%.2f", ImGuiSliderFlags_AlwaysClamp);
 	ImGui::SameLine();
 	ImGui::DragFloat(("y" + suffix + "EulerAngles").c_str(), &eulerAngles.y, speedEulerAngles,
-		-90.0f, 90.f, "%.2f", ImGuiSliderFlags_AlwaysClamp);
+		-180.0f, 180.f, "%.2f", ImGuiSliderFlags_AlwaysClamp);
 	ImGui::SameLine();
 	ImGui::DragFloat(("z" + suffix + "EulerAngles").c_str(), &eulerAngles.z, speedEulerAngles,
 		-180.0f, 180.f, "%.2f", ImGuiSliderFlags_AlwaysClamp);

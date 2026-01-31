@@ -1,6 +1,5 @@
 #pragma once
 
-#include "guis/gui.hpp"
 #include "scene.hpp"
 
 #include <glad/glad.h>
@@ -13,21 +12,20 @@ public:
 	Window(const glm::ivec2& initialSize);
 	~Window();
 
-	const glm::ivec2& viewportSize() const;
-	void setWindowData(Scene& scene, GUI& gui);
+	void init(Scene& scene);
 	bool shouldClose() const;
 	void swapBuffers() const;
 	void pollEvents() const;
+
+	const glm::ivec2& viewportSize() const;
 	GLFWwindow* getPtr();
 
 private:
 	GLFWwindow* m_windowPtr{};
 	glm::ivec2 m_viewportSize{};
 	Scene* m_scene{};
-	GUI* m_gui{};
 
 	glm::vec2 m_lastCursorPos{};
-	bool m_dragging = false;
 
 	void resizeCallback(int width, int height);
 	void cursorMovementCallback(double x, double y);

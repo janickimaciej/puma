@@ -1,4 +1,4 @@
-#include "guis/gui.hpp"
+#include "gui/gui.hpp"
 #include "scene.hpp"
 #include "window.hpp"
 
@@ -11,7 +11,7 @@ int main()
 	Window window{initialWindowSize};
 	Scene scene{window.viewportSize()};
 	GUI gui{window.getPtr(), scene, window.viewportSize()};
-	window.setWindowData(scene, gui);
+	window.init(scene);
 
 	while (!window.shouldClose())
 	{

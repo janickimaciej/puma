@@ -1,15 +1,11 @@
-#include "guis/gui.hpp"
+#include "gui/gui.hpp"
 
 #include <imgui/imgui.h>
 #include <imgui/backends/imgui_impl_glfw.h>
 #include <imgui/backends/imgui_impl_opengl3.h>
 
-#include <algorithm>
-#include <optional>
-
-GUI::GUI(GLFWwindow* window, Scene& scene, const glm::ivec2& windowSize) :
-	m_leftPanel{scene, windowSize},
-	m_scene{scene}
+GUI::GUI(GLFWwindow* window, Scene& scene, const glm::ivec2& viewportSize) :
+	m_leftPanel{scene, viewportSize}
 {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();

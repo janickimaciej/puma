@@ -1,6 +1,6 @@
 #pragma once
 
-#include "cameras/perspectiveCamera.hpp"
+#include "camera/perspectiveCamera.hpp"
 #include "framebuffer.hpp"
 #include "frame.hpp"
 #include "interpolation.hpp"
@@ -16,7 +16,7 @@
 class Scene
 {
 public:
-	Scene(const glm::ivec2& windowSize);
+	Scene(const glm::ivec2& viewportSize);
 	void update();
 	void render();
 	void updateViewportSize();
