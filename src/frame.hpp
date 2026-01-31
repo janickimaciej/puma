@@ -2,8 +2,6 @@
 
 #include "camera/camera.hpp"
 #include "frameMesh.hpp"
-#include "shaderProgram.hpp"
-#include "shaderPrograms.hpp"
 
 #include <glm/glm.hpp>
 
@@ -23,7 +21,6 @@ public:
 private:
 	static std::unique_ptr<FrameMesh> m_mainFrameMesh;
 	static std::unique_ptr<FrameMesh> m_intermediateFrameMesh;
-	const ShaderProgram& m_shaderProgram = *ShaderPrograms::frame;
 	glm::vec3 m_pos{0, 0, 0};
 	glm::mat4 m_rotationMatrix{1};
 	glm::mat4 m_modelMatrix{1};

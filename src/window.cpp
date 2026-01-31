@@ -1,13 +1,11 @@
 #include "window.hpp"
 
-#include "gui/leftPanel.hpp"
 #include "shaderPrograms.hpp"
 
 #include <cmath>
 #include <string>
 
-Window::Window(const glm::ivec2& initialSize) :
-	m_viewportSize{initialSize - glm::ivec2{LeftPanel::width, 0}}
+Window::Window()
 {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -15,7 +13,7 @@ Window::Window(const glm::ivec2& initialSize) :
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_SAMPLES, 4);
 	static const std::string windowTitle = "puma";
-	m_windowPtr = glfwCreateWindow(initialSize.x, initialSize.y, windowTitle.c_str(), nullptr,
+	m_windowPtr = glfwCreateWindow(m_initialSize.x, m_initialSize.y, windowTitle.c_str(), nullptr,
 		nullptr);
 	glfwSetWindowUserPointer(m_windowPtr, this);
 	glfwMakeContextCurrent(m_windowPtr);

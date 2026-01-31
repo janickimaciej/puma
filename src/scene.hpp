@@ -65,8 +65,8 @@ private:
 	std::unique_ptr<Framebuffer> m_rightFramebuffer;
 	Quad m_quad{};
 
-	static constexpr float gridScale = 5.0f;
-	Plane m_plane{gridScale};
+	static constexpr float m_gridScale = 5.0f;
+	Plane m_plane{m_gridScale};
 
 	int m_intermediateFrameCount = 30;
 

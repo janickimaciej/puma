@@ -1,5 +1,6 @@
 #pragma once
 
+#include "gui/leftPanel.hpp"
 #include "scene.hpp"
 
 #include <glad/glad.h>
@@ -9,7 +10,7 @@
 class Window
 {
 public:
-	Window(const glm::ivec2& initialSize);
+	Window();
 	~Window();
 
 	void init(Scene& scene);
@@ -21,8 +22,10 @@ public:
 	GLFWwindow* getPtr();
 
 private:
+	static constexpr glm::ivec2 m_initialSize{1900, 1000};
+
 	GLFWwindow* m_windowPtr{};
-	glm::ivec2 m_viewportSize{};
+	glm::ivec2 m_viewportSize{m_initialSize - glm::ivec2{LeftPanel::width, 0}};
 	Scene* m_scene{};
 
 	glm::vec2 m_lastCursorPos{};
