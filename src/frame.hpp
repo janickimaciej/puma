@@ -14,7 +14,6 @@ public:
 
 	void render() const;
 
-	glm::vec3 getPos() const;
 	void setPos(const glm::vec3& pos);
 	void setRotationMatrix(const glm::mat4& matrix);
 

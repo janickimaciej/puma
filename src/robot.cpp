@@ -154,7 +154,7 @@ void Robot::updateBoxes()
 	rotationMatrix *= currRotation;
 	posMatrix *= currRotation * currTranslation;
 	m_boxes[0]->setScale({boxesSize, m_geometry.l1, boxesSize});
-	m_boxes[0]->setPosition(posMatrix * glm::vec4{0, 0, 0, 1});
+	m_boxes[0]->setPos(posMatrix * glm::vec4{0, 0, 0, 1});
 	m_boxes[0]->setRotationMatrix(rotationMatrix);
 	posMatrix *= currTranslation;
 
@@ -163,7 +163,7 @@ void Robot::updateBoxes()
 	rotationMatrix *= currRotation;
 	posMatrix *= currRotation * currTranslation;
 	m_boxes[1]->setScale({m_config.q2, boxesSize, boxesSize});
-	m_boxes[1]->setPosition(posMatrix * glm::vec4{0, 0, 0, 1});
+	m_boxes[1]->setPos(posMatrix * glm::vec4{0, 0, 0, 1});
 	m_boxes[1]->setRotationMatrix(rotationMatrix);
 	posMatrix *= currTranslation;
 
@@ -172,7 +172,7 @@ void Robot::updateBoxes()
 	rotationMatrix *= currRotation;
 	posMatrix *= currRotation * currTranslation;
 	m_boxes[2]->setScale({boxesSize, m_geometry.l3, boxesSize});
-	m_boxes[2]->setPosition(posMatrix * glm::vec4{0, 0, 0, 1});
+	m_boxes[2]->setPos(posMatrix * glm::vec4{0, 0, 0, 1});
 	m_boxes[2]->setRotationMatrix(rotationMatrix);
 	posMatrix *= currTranslation;
 
@@ -181,7 +181,7 @@ void Robot::updateBoxes()
 	rotationMatrix *= currRotation;
 	posMatrix *= currRotation * currTranslation;
 	m_boxes[3]->setScale({m_geometry.l4, boxesSize, boxesSize});
-	m_boxes[3]->setPosition(posMatrix * glm::vec4{0, 0, 0, 1});
+	m_boxes[3]->setPos(posMatrix * glm::vec4{0, 0, 0, 1});
 	m_boxes[3]->setRotationMatrix(rotationMatrix);
 	posMatrix *= currTranslation;
 }

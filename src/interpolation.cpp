@@ -29,7 +29,7 @@ void Interpolation::start()
 		return;
 	}
 
-	m_startTime = now() - std::chrono::duration<float>(m_currentTime);
+	m_startTime = now() - std::chrono::duration<float>(m_currTime);
 	m_running = true;
 }
 
@@ -41,7 +41,7 @@ void Interpolation::stop()
 void Interpolation::reset()
 {
 	stop();
-	m_currentTime = 0;
+	m_currTime = 0;
 	m_prevConfig = m_startConfig;
 	updateFramesAndRobots();
 }
@@ -53,11 +53,11 @@ void Interpolation::update()
 		return;
 	}
 
-	m_currentTime =
+	m_currTime =
 		std::chrono::duration_cast<std::chrono::duration<float>>(now() - m_startTime).count();
-	if (m_currentTime >= m_endTime)
+	if (m_currTime >= m_endTime)
 	{
-		m_currentTime = m_endTime;
+		m_currTime = m_endTime;
 		m_running = false;
 	}
 	updateFramesAndRobots();
@@ -65,12 +65,11 @@ void Interpolation::update()
 
 void Interpolation::updateFramesAndRobots()
 {
-	m_configFrame.setPos(Robot::configToPos(interpolateConfig(m_currentTime)));
-	m_configFrame.setRotationMatrix(
-		Robot::configToRotationMatrix(interpolateConfig(m_currentTime)));
+	m_configFrame.setPos(Robot::configToPos(interpolateConfig(m_currTime)));
+	m_configFrame.setRotationMatrix(Robot::configToRotationMatrix(interpolateConfig(m_currTime)));
 
-	m_quatFrame.setPos(interpolatePos(m_currentTime));
-	m_quatFrame.setRotationMatrix(quatToRotationMatrix(interpolateQuat(m_currentTime)));
+	m_quatFrame.setPos(interpolatePos(m_currTime));
+	m_quatFrame.setRotationMatrix(quatToRotationMatrix(interpolateQuat(m_currTime)));
 
 	std::size_t intermediateFrameCount = m_configFrames.size();
 	float dTime = m_endTime / (intermediateFrameCount - 1);
@@ -85,16 +84,16 @@ void Interpolation::updateFramesAndRobots()
 		m_quatFrames[i].setRotationMatrix(quatToRotationMatrix(interpolateQuat(time)));
 	}
 
-	m_configRobot.setConfig(interpolateConfig(m_currentTime));
+	m_configRobot.setConfig(interpolateConfig(m_currTime));
 
-	m_prevConfig = Robot::posAndQuatToConfig(interpolatePos(m_currentTime),
-		interpolateQuat(m_currentTime), m_prevConfig);
+	m_prevConfig = Robot::posAndQuatToConfig(interpolatePos(m_currTime),
+		interpolateQuat(m_currTime), m_prevConfig);
 	m_quatRobot.setConfig(m_prevConfig);
 }
 
 float Interpolation::getTime() const
 {
-	return m_currentTime;
+	return m_currTime;
 }
 
 float Interpolation::getEndTime() const

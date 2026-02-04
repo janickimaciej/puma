@@ -1,8 +1,8 @@
 #include "model.hpp"
 
-void Model::setPosition(const glm::vec3& position)
+void Model::setPos(const glm::vec3& pos)
 {
-	m_position = position;
+	m_pos = pos;
 	updateMatrix();
 }
 
@@ -33,13 +33,13 @@ void Model::updateMatrix()
 			0, 0, 0, 1
 		};
 
-	glm::mat4 positionMatrix
+	glm::mat4 posMatrix
 		{
 			1, 0, 0, 0,
 			0, 1, 0, 0,
 			0, 0, 1, 0,
-			m_position.x, m_position.y, m_position.z, 1
+			m_pos.x, m_pos.y, m_pos.z, 1
 		};
 
-	m_modelMatrix = positionMatrix * m_rotationMatrix * scaleMatrix;
+	m_modelMatrix = posMatrix * m_rotationMatrix * scaleMatrix;
 }

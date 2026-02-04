@@ -51,7 +51,7 @@ private:
 	Robot::Config m_prevConfig{};
 
 	TimePoint m_startTime{};
-	float m_currentTime = 0;
+	float m_currTime = 0;
 	float m_endTime = 5;
 	bool m_running = false;
 
