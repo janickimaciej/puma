@@ -8,6 +8,8 @@
 class Model
 {
 public:
+	virtual ~Model() = default;
+
 	virtual void render() const = 0;
 	void setPos(const glm::vec3& pos);
 	void setRotationMatrix(const glm::mat4& matrix);
