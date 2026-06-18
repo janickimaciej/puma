@@ -12,8 +12,6 @@ public:
 	ShaderProgram(const std::string& vertexShaderPath, const std::string& fragmentShaderPath);
 	ShaderProgram(const std::string& vertexShaderPath, const std::string& geometryShaderPath,
 		const std::string& fragmentShaderPath);
-	ShaderProgram(const std::string& vertexShaderPath, const std::string& tessCtrlShaderPath,
-		const std::string& tessEvalShaderPath, const std::string& fragmentShaderPath);
 	ShaderProgram(const ShaderProgram&) = delete;
 	ShaderProgram(ShaderProgram&&) = delete;
 	~ShaderProgram();
@@ -24,13 +22,8 @@ public:
 	void use() const;
 
 	void setUniform(const std::string& name, bool value) const;
-	void setUniform(const std::string& name, int value) const;
 	void setUniform(const std::string& name, float value) const;
-	void setUniform(const std::string& name, const glm::ivec2& value) const;
-	void setUniform(const std::string& name, const glm::vec2& value) const;
 	void setUniform(const std::string& name, const glm::vec3& value) const;
-	void setUniform(const std::string& name, const glm::vec4& value) const;
-	void setUniform(const std::string& name, const glm::mat3& value) const;
 	void setUniform(const std::string& name, const glm::mat4& value) const;
 
 private:

@@ -28,16 +28,6 @@ ShaderProgram::ShaderProgram(const std::string& vertexShaderPath,
 	}
 { }
 
-ShaderProgram::ShaderProgram(const std::string& vertexShaderPath,
-	const std::string& tessCtrlShaderPath, const std::string& tessEvalShaderPath,
-	const std::string& fragmentShaderPath) :
-	ShaderProgram
-	{
-		{vertexShaderPath, tessCtrlShaderPath, tessEvalShaderPath, fragmentShaderPath},
-		{GL_VERTEX_SHADER, GL_TESS_CONTROL_SHADER, GL_TESS_EVALUATION_SHADER, GL_FRAGMENT_SHADER}
-	}
-{ }
-
 ShaderProgram::~ShaderProgram()
 {
 	glDeleteProgram(m_id);
@@ -53,40 +43,14 @@ void ShaderProgram::setUniform(const std::string& name, bool value) const
 	glUniform1i(glGetUniformLocation(m_id, name.c_str()), static_cast<int>(value));
 }
 
-void ShaderProgram::setUniform(const std::string& name, int value) const
-{
-	glUniform1i(glGetUniformLocation(m_id, name.c_str()), value);
-}
-
 void ShaderProgram::setUniform(const std::string& name, float value) const
 {
 	glUniform1f(glGetUniformLocation(m_id, name.c_str()), value);
 }
 
-void ShaderProgram::setUniform(const std::string& name, const glm::ivec2& value) const
-{
-	glUniform2iv(glGetUniformLocation(m_id, name.c_str()), 1, glm::value_ptr(value));
-}
-
-void ShaderProgram::setUniform(const std::string& name, const glm::vec2& value) const
-{
-	glUniform2fv(glGetUniformLocation(m_id, name.c_str()), 1, glm::value_ptr(value));
-}
-
 void ShaderProgram::setUniform(const std::string& name, const glm::vec3& value) const
 {
 	glUniform3fv(glGetUniformLocation(m_id, name.c_str()), 1, glm::value_ptr(value));
-}
-
-void ShaderProgram::setUniform(const std::string& name, const glm::vec4& value) const
-{
-	glUniform4fv(glGetUniformLocation(m_id, name.c_str()), 1, glm::value_ptr(value));
-}
-
-void ShaderProgram::setUniform(const std::string& name, const glm::mat3& value) const
-{
-	glUniformMatrix3fv(glGetUniformLocation(m_id, name.c_str()), 1, GL_FALSE,
-		glm::value_ptr(value));
 }
 
 void ShaderProgram::setUniform(const std::string& name, const glm::mat4& value) const
@@ -180,14 +144,6 @@ void ShaderProgram::printCompilationError(unsigned int shader, GLenum shaderType
 	{
 		case GL_VERTEX_SHADER:
 			shaderTypeName = "vertex";
-			break;
-
-		case GL_TESS_CONTROL_SHADER:
-			shaderTypeName = "tessellation control";
-			break;
-
-		case GL_TESS_EVALUATION_SHADER:
-			shaderTypeName = "tessellation evaluation";
 			break;
 
 		case GL_GEOMETRY_SHADER:
